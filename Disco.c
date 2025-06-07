@@ -155,8 +155,9 @@ static void on_cadastrar_button_clicked(GtkWidget *widget, gpointer data) {
             gtk_dialog_run(GTK_DIALOG(dialog)); // Exibe a caixa de diálogo.
             gtk_widget_destroy(dialog); // Destrói a caixa de diálogo.
         } else {
+            GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(gtk_widget_get_toplevel(widget)),
                                                      GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
-                                                     ("Erro ao cadastrar disco (memória)!"); // Cria uma caixa de diálogo de erro de memória.
+                                                     "Erro ao cadastrar disco (memória)!"); // Cria uma caixa de diálogo de erro de memória.
             gtk_dialog_run(GTK_DIALOG(dialog)); // Exibe a caixa de diálogo de erro.
             gtk_widget_destroy(dialog); // Destrói a caixa de diálogo.
         }
@@ -185,12 +186,12 @@ static void on_carregar_edicao_button_clicked(GtkWidget *widget, gpointer data) 
         char *estoque_disco_selecionado; // String do modelo
 
         gtk_tree_model_get(model, &iter,
-                           // "lê" o conteúdo das colunas da linha apontada pelo 'iter' no 'model'.
-                           0, &nome_disco_selecionado, // Obtém o valor da coluna 0 (Nome) e armazena em 'nome_disco_selecionado'
-                           1, &autor_disco_selecionado, // Obtém o valor da coluna 1 (Autor) e armazena em 'autor_disco_selecionado'
-                           2, &preco_disco_selecionado, // Obtém o valor da coluna 2 (Preço) e armazena em 'preco_disco_selecionado'
-                           3, &estoque_disco_selecionado, // Obtém o valor da coluna 3 (Estoque) e armazena em 'estoque_disco_selecionado'
-                           -1);                          // Marcador para indicar o fim dos argumentos da função
+// "le" o conteudo das colunas da linha apontada pelo 'iter' no 'model'
+                           0, &nome_disco_selecionado, // Obtem o valor da coluna 0 (Nome) e armazena em 'nome_disco_selecionado'
+                           1, &autor_disco_selecionado, // Obtem o valor da coluna 1 (Autor) e armazena em 'autor_disco_selecionado'
+                           2, &preco_disco_selecionado, // Obtem o valor da coluna 2 (Preco) e armazena em 'preco_disco_selecionado'
+                           3, &estoque_disco_selecionado, // Obtem o valor da coluna 3 (Estoque) e armazena em 'estoque_disco_selecionado'
+                           -1); // Marcador para indicar o fim dos argumentos da funcao
 
         // Encontrar o índice real no array `discos`
         // (Importante se a lista na GUI puder ser reordenada ou filtrada no futuro)
@@ -205,22 +206,22 @@ static void on_carregar_edicao_button_clicked(GtkWidget *widget, gpointer data) 
         }
 
 
-        if (indice_disco_sendo_editado != -1 && discos[indice_disco_sendo_editado] != NULL) {
-            // Verifica se há um disco válido selecionado para edição.
-             gtk_entry_set_text(GTK_ENTRY(entry_nome), discos[indice_disco_sendo_editado]->nome);
-            // Preenche o campo 'Nome' com o nome do disco.
-             gtk_entry_set_text(GTK_ENTRY(entry_autor), discos[indice_disco_sendo_editado]->autor);
-            // Preenche o campo 'Autor' com o autor do disco.
+if (indice_disco_sendo_editado != -1 && discos[indice_disco_sendo_editado] != NULL) {
+    // Verifica se há um disco válido selecionado para edição.
+    gtk_entry_set_text(GTK_ENTRY(entry_nome), discos[indice_disco_sendo_editado]->nome);
+    // Preenche o campo 'Nome' com o nome do disco.
+    gtk_entry_set_text(GTK_ENTRY(entry_autor), discos[indice_disco_sendo_editado]->autor);
+    // Preenche o campo 'Autor' com o autor do disco.
 
-             char preco_str_format[20];
-             sprintf(preco_str_format, "%.2f", discos[indice_disco_sendo_editado]->preco);
-             gtk_entry_set_text(GTK_ENTRY(entry_preco), preco_str_format);
-            // Converte o preço (float) para string formatada e preenche o campo 'Preço'.
+    char preco_str_format[20];
+    sprintf(preco_str_format, "%.2f", discos[indice_disco_sendo_editado]->preco);
+    gtk_entry_set_text(GTK_ENTRY(entry_preco), preco_str_format);
+    // Converte o preço (float) para string formatada e preenche o campo 'Preço'.
 
-             char estoque_str_format[10];
-             sprintf(estoque_str_format, "%d", discos[indice_disco_sendo_editado]->estoque);
-             gtk_entry_set_text(GTK_ENTRY(entry_estoque), estoque_str_format);
-            // Converte o estoque (int) para string e preenche o campo 'Estoque'.
+    char estoque_str_format[10];
+    sprintf(estoque_str_format, "%d", discos[indice_disco_sendo_editado]->estoque);
+    gtk_entry_set_text(GTK_ENTRY(entry_estoque), estoque_str_format);
+    // Converte o estoque (int) para string e preenche o campo 'Estoque'.
 
             gtk_widget_set_sensitive(button_salvar_alteracoes, TRUE); // Habilita o botão "Salvar"
         } else {
